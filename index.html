@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Be My Valentine 💛</title>
+
+<style>
+body {
+  background: black;
+  color: white;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
+}
+
+.container {
+  text-align: center;
+  position: relative;
+}
+
+img {
+  width: 280px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.greeting {
+  font-size: 22px;
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: fadeIn 2s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+button {
+  padding: 12px 26px;
+  font-size: 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+#yes {
+  background: #ffd500;
+  color: black;
+  z-index: 2;
+}
+
+#no {
+  background: #555;
+  color: white;
+  margin-left: 10px;
+}
+
+.heart, .confetti {
+  position: fixed;
+  bottom: -20px;
+  animation: floatUp 4s linear forwards;
+}
+
+.heart {
+  font-size: 24px;
+}
+
+.confetti {
+  width: 8px;
+  height: 8px;
+  background: red;
+  animation-duration: 3s;
+}
+
+@keyframes floatUp {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-110vh);
+    opacity: 0;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <img src="minion.png" alt="Be my valentine">
+  <div class="greeting">hi hannah 💛</div>
+
+  <button id="yes">Yes 💛</button>
+  <button id="no">No ❌</button>
+</div>
+
+<script>
+const yesBtn = document.getElementById("yes");
+const noBtn = document.getElementById("no");
+
+let scale = 1;
+
+// NO CLICK → YES GETS HUGE
+noBtn.addEventListener("click", () => {
+  scale += 0.6;
+  yesBtn.style.transform = `scale(${scale})`;
+
+  if (scale > 6) {
+    yesBtn.style.position = "fixed";
+    yesBtn.style.top = "50%";
+    yesBtn.style.left = "50%";
+    yesBtn.style.transform = "translate(-50%, -50%) scale(8)";
+  }
+});
+
+// YES CLICK → HEARTS + CONFETTI
+yesBtn.addEventListener("click", () => {
+  document.body.innerHTML = `
+    <h1 style="color:#ffd500; text-align:center;">
+      YAY 💛<br>
+      Best decision ever 😌
+    </h1>
+  `;
+
+  setInterval(createHeart, 250);
+  setInterval(createConfetti, 150);
+});
+
+function createHeart() {
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.innerText = "❤️";
+  heart.style.left = Math.random() * 100 + "vw";
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 4000);
+}
+
+function createConfetti() {
+  const conf = document.createElement("div");
+  conf.className = "confetti";
+  conf.style.left = Math.random() * 100 + "vw";
+  conf.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
+  document.body.appendChild(conf);
+  setTimeout(() => conf.remove(), 3000);
+}
+</script>
+
+</body>
+</html>
